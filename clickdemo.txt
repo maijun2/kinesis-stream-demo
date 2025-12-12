@@ -1,0 +1,97 @@
+---
+## 使い方
+STREAM_NAME=$(aws kinesis list-streams --query "StreamNames[?contains(@, 'ClickstreamDataStream')]" --output text)
+echo -e "\n\nThe stream name is : $STREAM_NAME\n\n"
+
+# 手動で環境変数設定
+STREAM_NAME=kinesis-stream-demo-stream
+
+#ストリーム名
+kinesis-stream-demo-stream
+
+#実行
+python3 clickstream_generator_items.py $STREAM_NAME 1 1
+
+詳細版なら
+python3 clickstream_generator_regional.py $STREAM_NAME 1 1
+
+---
+
+## 📄 スクリプトの全体像
+`clickstream_generator_items.py` は **疑似クリックストリーム・イベントをランダム生成し、Kinesis Data Stream へ送信** するテスト用ユーティリティです。  
+コードは 4 つのブロックに大別できます。
+
+| ブロック | 役割 | 主な関数・処理 |
+|----------|------|----------------|
+| ① 事前準備 | ライブラリ読み込み・リージョン自動検出 | `detect_region()` |
+| ② データ生成 | ランダムなイベント属性を組み立てる | `get_event_id() / get_event()` など |
+| ③ メインループ | 待機 → レコード作成 → `put_record` 送信 | `while True` |
+| ④ CLI インタフェース | 引数解析・Verbose 切替 | `sys.argv` |
+
+---
+
+## 1. コマンドライン引数仕様
+| 位置 | 意味 | 例 | 備考 |
+|------|------|----|------|
+| `argv[1]` | **Stream 名** | `ClickstreamDataStream` | 必須 |
+| `argv[2]` | 表示用 *Max interval* | `1` | **実際には未使用** |
+| `argv[3]` | 待機秒上限 | `1` | `sleep()` に利用 |
+| `argv[4]` | `--verbose` | （任意） | 送信レスポンス詳細表示 |
+
+> **⚠️ 注意**  
+> 表示メッセージは `argv[2]` を「Max interval」と呼びますが、実際の待機時間は `argv[3]` です。
+
+---
+
+## 2. 生成されるイベント構造
+```json5
+{
+  "event_id": "<MD5(UTC タイムスタンプ)>",
+  "event": "purchased_item | liked_item | …",   // 全6種
+  "user_id": 1–50,
+  "item_id": 11–53,                            // カテゴリ別レンジ
+  "item_quantity": 0 | 1–5,                    // purchased 以外は 0
+  "event_time": "YYYY-MM-DD HH:MM:SS.ffffff",
+  "os": "ios | android | web",
+  "page": "apparel | food | electronics | home | books",
+  "url": "www.example.com"
+}
+```
+
+### 不整合の可能性
+`page` を 2 度ランダム生成するため **`item_id` と `page` が食い違う** ことがあります。
+
+---
+
+## 3. 送信処理フロー
+1. **リージョン決定**  
+   EC2 ならメタデータサービス、失敗時は `None` → ローカル実行でエラーの可能性。
+2. **`put_record` 送信**  
+   `PartitionKey` は固定 `"partitionkey"`。
+3. **乱数待機** → 無限ループ継続。
+
+---
+
+## 4. 改善ポイント
+| 区分 | 課題 | 改善案 |
+|------|------|--------|
+| 引数解析 | インデックスずれ | `argparse` で名前付き引数化 |
+| データ整合性 | `page` 二重乱数 | 取得済み `pagename` をそのまま使用 |
+| リージョン取得 | ローカルで失敗 | `boto3.session.Session().region_name` をフォールバック |
+| 終了処理 | Ctrl+C で Traceback | `try/except KeyboardInterrupt` で優雅に終了 |
+| コード品質 | 可読性 | 型ヒント & 定数整理、PEP8 準拠 |
+
+---
+
+## 5. 実行例（改善後イメージ）
+```bash
+python3 clickstream_generator_items.py \
+  --stream ClickstreamDataStream \
+  --max-sleep 1 \
+  --verbose
+```
+
+---
+
+### ✅ 次のステップ
+- **引数処理のリファクタ** や **カテゴリ不整合の解消** を行うコードパッチが必要ならお知らせください！

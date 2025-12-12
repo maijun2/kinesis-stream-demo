@@ -1,0 +1,247 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px; /* 地図表示のため幅を拡張 */
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+.products {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+}
+
+.product {
+    text-align: center;
+}
+
+.product h2 {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.buy-btn {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.buy-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.kinoko {
+    background: linear-gradient(45deg, #8B4513, #D2691E);
+    color: white;
+}
+
+.takenoko {
+    background: linear-gradient(45deg, #228B22, #32CD32);
+    color: white;
+}
+
+.chart-container {
+    margin: 40px 0;
+    height: 400px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 30px 0;
+    font-size: 1.2em;
+}
+
+.stat {
+    text-align: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    min-width: 150px;
+}
+
+.label {
+    font-weight: bold;
+    color: #666;
+}
+
+/* 地図セクションのスタイル */
+.map-section {
+    margin-top: 40px;
+    border-top: 2px solid #eee;
+    padding-top: 30px;
+}
+
+.map-section h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+#map {
+    height: 500px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+}
+
+/* 地図の凡例 */
+.map-legend {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.kinoko-dot {
+    background-color: #D2691E;
+    box-shadow: 0 0 0 2px #8B4513;
+}
+
+.takenoko-dot {
+    background-color: #32CD32;
+    box-shadow: 0 0 0 2px #228B22;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .container {
+        max-width: 95%;
+        padding: 20px;
+    }
+    
+    .products {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    #map {
+        height: 400px;
+    }
+    
+    .map-legend {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+}
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.buy-btn.kinoko {
+    background: linear-gradient(45deg, #8B4513, #D2691E);
+    color: white;
+}
+
+.buy-btn.takenoko {
+    background: linear-gradient(45deg, #228B22, #32CD32);
+    color: white;
+}
+
+.buy-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.buy-btn:active {
+    transform: translateY(0);
+}
+
+.chart-container {
+    margin: 40px 0;
+    height: 400px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.stat {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.label {
+    color: #666;
+}
+
+#kinoko-count {
+    color: #8B4513;
+}
+
+#takenoko-count {
+    color: #228B22;
+}
+
+.connection-status {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.connected {
+    background: #4CAF50;
+    color: white;
+}
+
+.disconnected {
+    background: #f44336;
+    color: white;
+}

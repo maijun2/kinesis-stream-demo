@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Lambda deployment packages
+backend/*/boto3*
+backend/*/botocore*
+backend/*/s3transfer*
+backend/*/dateutil/
+backend/*/jmespath/
+backend/*/urllib3/
+backend/*/six.py
+backend/*/*.dist-info/
+backend/*/bin/
+backend/*/function.zip
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>きのこ vs たけのこ - リアルタイム購入サイト</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>きのこ vs たけのこ バトル！</h1>
+        <div class="products">
+            <div class="product">
+                <h2>きのこの山</h2>
+                <button id="kinoko-btn" class="buy-btn kinoko">購入する</button>
+            </div>
+            <div class="product">
+                <h2>たけのこの里</h2>
+                <button id="takenoko-btn" class="buy-btn takenoko">購入する</button>
+            </div>
+        </div>
+        <div class="chart-container">
+            <canvas id="salesChart"></canvas>
+        </div>
+        <div class="stats">
+            <div class="stat">
+                <span class="label">きのこの山:</span>
+                <span id="kinoko-count">0</span>個
+            </div>
+            <div class="stat">
+                <span class="label">たけのこの里:</span>
+                <span id="takenoko-count">0</span>個
+            </div>
+        </div>
+        
+        <!-- 地図表示エリア -->
+        <div class="map-section">
+            <h2>🗾 購入場所マップ（日本全国）</h2>
+            <div id="map"></div>
+            <div class="map-legend">
+                <div class="legend-item">
+                    <span class="legend-dot kinoko-dot"></span>
+                    <span>きのこの山</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot takenoko-dot"></span>
+                    <span>たけのこの里</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 都市データを読み込み -->
+    <script src="cities.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
